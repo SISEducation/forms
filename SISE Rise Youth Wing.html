@@ -1,0 +1,236 @@
+<style>
+	form > h3{
+	color: black !important;
+    font-size: 4rem !important;
+    padding: 3rem 0rem 0.3rem 1rem !important;
+    border-bottom: solid gray 0.3rem !important;
+	}
+	form {
+	display: grid;
+	}
+
+	form > label, input[type='submit'] {margin: 1rem 0 0 .2rem;}
+
+	.address {
+	display:grid;
+	grid-gap: 0.3rem;
+	grid-template-areas:
+	 'street street street street street'
+	 'street2 street2 street2 street2 street2'
+	 'city city state state state'
+	 'country country country zip zip' ;
+	}
+	.address > input {border-radius: 4px;}
+
+	input {border-radius: 7px; padding: 3px 1.5rem; }
+	input[type='radio'] {all: revert;}
+	input[type='file'] {border: 0 solid;}
+	input[type='file'] {height:auto;}
+	input[type='submit'] {
+	height:auto;
+	background: linear-gradient(90deg,#d8d8d8,#000,#d8d8d8);
+	color:white;
+    }
+
+	.radio{
+		display:grid;
+		grid-template-columns: auto auto;
+		justify-content: start;
+		grid-gap: 0.1rem 1.2rem;
+		margin: 3px 20px;
+
+	}
+	.activity {
+		display: grid;
+		grid-template-columns: auto;
+		grid-gap: 0.5rem 1.2rem;
+		margin: 3px 20px;
+
+	}
+	.activity > input {
+		max-width: 450px;
+	}
+	.radio > #other_text {
+		    grid-column-start: 2;
+		    visibility: hidden;
+	}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+</script>
+<script type="text/javascript" >
+
+	window.onload = function(){
+	    $('form')[0].reset();
+	}
+	$('document').ready(function () {
+	function onsubmit(){
+		$( `<style>input:invalid, textarea:invalid{border-color:red;}
+		 	input[type="file"]:required{border: solid red 2px }
+		 	input:focus, textarea:focus{border-color:blue;}</style>` ).appendTo( "head" )
+		}
+
+		$("input[type='submit']").click(onsubmit)
+
+		$("input[type='file']").each((i,el)=>{$(el).change(()=>{
+		 		$(el).css("border","0 solid ")
+		})})
+
+		$('input[type=radio][name=gender]').on('change',function(){
+			let val = $(this).val()
+			let el = $('input#other_text')
+			if(val=='other'){
+				el.attr("required", true);
+				el.css('visibility','visible');
+			}
+			else {
+				el.attr("required", false);
+				el.css('visibility','hidden');
+			}
+		})
+
+	})
+</script>
+
+<form action="https://api.saghatelyaninstitute.org//forms/SIS_Education_Rise" method="POST" enctype = "multipart/form-data" target="_self">
+
+	<input type="hidden" name="_next" value="https://www.saghatelyaninstitute.org/congratulations-youth-wing-applicants/">
+
+    <h3>Personal Data</h3>
+
+	<label for="name">Name & Surname</label>
+	<input type="text" id="name" name="name" required>
+
+	<label for="gender" id='gender'>Gender</label>
+	<div class="radio">
+		<label for="female" >Female</label>
+		<input type="radio" id="female" value="female" name="gender" required >
+		<label for="male">Male</label>
+		<input type="radio" id="male" value="male" name="gender"  required>
+		<label for="male">Prefer not to say</label>
+		<input type="radio" id="N/A" value="N/A" name="gender"  required>
+		<label for="male">Other</label>
+		<input type="radio" id="other" value="other" name="gender"  required>
+
+		<input type="text" id="other_text" >
+	</div>
+
+	<label for="birth_date">Date of birth</label>
+	<input type="date" required>
+
+	<label for="nationality">Nationality</label>
+	<input type="text" required>
+
+	<label for="hschool">Current or Most Recent High School</label>
+	<input type="text" id="hschool" name="hschool" required>
+
+	<label for="hschool2">Other High School</label>
+	<input type="text" id="hschool2" name="hschool2" required>
+
+	<h3>Contact Information</h3>
+
+	<label for="address">Address</label>
+	<div class="address">
+	  <input type="street" name="street"  placeholder="Street"   required style="grid-area: street;">
+	  <input type="street" name="street2" placeholder="Street 2" style="grid-area: street2;">
+	  <input type="city"   name="city"   placeholder="City"      required style="grid-area: city">
+	  <input type="state"  name="state"  placeholder="State"     required style="grid-area: state;">
+	  <input type="zip"    name="zip"    placeholder="Zip"       required style="grid-area: zip;">
+	  <input type="country" name="country" placeholder="Country" required style="grid-area: country;">
+	</div>
+
+	<label for="email">E-mail Address</label>
+	<input type="email" id="email" name="email" required>
+
+	<label for="phone">Phone Number</label>
+	<input type="tel" id="phone" name="phone" 	placeholder="+374 96666666" pattern="\+[0-9]{1,3} [0-9]{8}" required>
+
+	<label for="saccount">Social Account</label>
+	<input type="text" id="saccount" name="saccount" required>
+
+	<h3>Activities</h3>
+
+	<label for="extracurricular">What activities at School interest you? List 5 of them in order of preference.</label>
+	<div class="activity">
+		<input type="text" id="activity_1" name="activity_1" required>
+		<input type="text" id="activity_2" name="activity_2" required>
+		<input type="text" id="activity_3" name="activity_3">
+		<input type="text" id="activity_4" name="activity_4">
+		<input type="text" id="activity_5" name="activity_5">
+	</div>
+
+	<label for="extracurricular">Please briefly elaborate on one of your extracurricular activities or work experiences.(max. 100 words)</label>
+	<textarea name="extracurricular"  rows="5" required></textarea>
+
+	<h3>Writing</h3>
+
+	<label for="english">English Proficiency</label>
+	<div class="radio">
+		<label for="female" >Basic</label>
+		<input type="radio" id="basic" value="basic" name="english" required>
+		<label for="female" >Intermediate</label>
+		<input type="radio" id="intermediate" value="intermediate" name="english" required>
+		<label for="female" >Advanced</label>
+		<input type="radio" id="advanced" value="advanced" name="english" required>
+		<label for="female" >Native</label>
+		<input type="radio" id="native" value="native" name="english" required>
+	</div>
+
+	<label for="languages">
+		<div> Are there any other languages you are proficient in?</div>
+		<div style="font-size: 0.7em;"> Please specify the level of proficiency.	</div>
+	</label>
+	<input type="text" name="languages" required>
+
+	<label for="plan">What specific plan do you have, if any, for using the education you hope to receive?(max. 50 words) </label>
+	<textarea name="plan" rows="3" required></textarea>
+
+	<label for="lessons">The lessons we take from obstacles we encounter can be fundamental to later success. Recount a time when you faced a challenge, setback,or failure. How did it affect you, and what did you learn from the experience.(max 200 words)</label>
+	<textarea name="lessons" rows="10" required></textarea>
+
+	<label for="motivation">Motivation letter. Please shortly describe how the learning and experience gained through your academic degree program can be used to address an immediate need, skills shortage, or target area for Armenia, for the Armenian nation, or for humanity.(max. 250 words) </label>
+	<textarea name="motivation" rows="13" required></textarea>
+
+	<h3>Tests & Honors</h3>
+
+	<label for="report">Do you wish to self-report scores or future test dates for any of the following standardized tests: ACT, SAT/SAT Subject, AP, IB, Cambridge, TOEFL, PTE Academic, IELTS, Duolingo English Test, national exams or other results you would like for us to consider? *</label>
+	<textarea name="report" required></textarea>
+
+	<label for="honors">Do you wish to report any honors related to your academic achievements beginning with the ninth grade or international equivalent? *</label>
+	<textarea name="honors" required></textarea>
+
+	<h3>Documents</h3>
+
+	<label for="grades">Please attach current and previous year transcripts (grade reports) in English or Armenian. *</label>
+	<input type="file" id='grades' name="grades" accept="application/pdf" required>
+
+	<label for="recommendation1">
+		<div>Principal/Counselor Recommendation</div>
+		<div style="font-size: 0.7em;"> Ask for a recommendation from your current principal or guidance counselor.</div>
+	</label>
+	<input type="file" id="recommendation" name="reccomendation" accept="application/pdf" required>
+
+	<label for="recommendation2">
+		<div> Special Interest Recommendation (optional):</div>
+		<div style="font-size: 0.7em;"> Ask an adult (for example, a teacher, mentor or coach) to write about particular interests or abilities which demonstrate your passion and commitment.	</div>
+	</label>
+	<input type="file" id="recommendation2" name="recommendation2" accept="application/pdf">
+
+	<label for="photo">
+		<div> Upload New Photo (optional)</div>
+		<div style="font-size: 0.7em;"> Face photo similar to passport or visa photo. </div>
+	</label>
+	<input type="file" id="photo" name="photo" accept="image/png, image/jpeg">
+
+	<h3>Additional Information</h3>
+
+	<label for="hear" >Where did you first hear about Saghatelyan Institute for Strategic Education?</label>
+	<input type="text" id="hear" name="hear"  required>
+
+	<label for="share">Would you mind nominating three people you think will be competent enough to become a member of SIS Education by writing their e-mails?</label>
+	<input type="text" id="share" name="share" required>
+
+	<label for="additional_info">You may use the space below to provide any additional information you wish to share.</label>
+	<textarea name='additional_info'></textarea>
+
+	<input type="submit" value="Submit">
+</form>

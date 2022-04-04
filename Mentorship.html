@@ -1,0 +1,168 @@
+	<style>
+		form > h3{
+		color: black !important;
+	    font-size: 4rem !important;
+	    padding: 3rem 0rem 0.3rem 1rem !important;
+	    border-bottom: solid gray 0.3rem !important;
+		}
+		form {
+		display: grid;
+		}
+		form > label, input[type='submit'] {margin: 1rem 0 0 .2rem;}
+
+		.address {
+		display:grid;
+		grid-gap: 0.3rem;
+		grid-template-areas:
+		 'street street street street street'
+		 'street2 street2 street2 street2 street2'
+		 'city city state state state'
+		 'country country country zip zip' ;
+		}
+		.address > input {border-radius: 4px;}
+		input {border-radius: 7px; padding: 3px 1.5rem; }
+		input[type='radio'] {all: revert;}
+		input[type='file'] {border: 0 solid; height:auto;}
+		input[type='submit'] {
+		height:auto;
+		background: linear-gradient(90deg,#d8d8d8,#000,#d8d8d8);
+		color:white;
+	    }
+
+		.radio{
+			display:grid;
+			grid-template-columns: auto auto;
+			justify-content: start;
+			grid-gap: 0.1rem 1.2rem;
+			margin: 3px 20px;
+
+		}
+		.radio > #other_text {
+			    grid-column-start: 2;
+			    visibility: hidden;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+	</script>
+
+	<script type="text/javascript" >
+
+		window.onload = function(){
+		    $('form')[0].reset();
+		}
+		$('document').ready(function () {
+		function onsubmit(){
+			$( `<style>input:invalid, textarea:invalid{border-color:red;}
+			 	input[type="file"]:required{border: solid red 2px }
+			 	input:focus, textarea:focus{border-color:blue;}</style>` ).appendTo( "head" )
+			}
+
+			$("input[type='submit']").click(onsubmit)
+
+			$("input[type='file']").each((i,el)=>{$(el).change(()=>{
+			 		$(el).css("border","0 solid ")
+			})})
+
+			$('input[type=radio][name=gender]').on('change',function(){
+				let val = $(this).val()
+				let el = $('input#other_text')
+				if(val=='other'){
+					el.attr("required", true);
+					el.css('visibility','visible');
+				}
+				else {
+					el.attr("required", false);
+					el.css('visibility','hidden');
+				}
+			})
+
+		})
+	</script>
+
+<form action="https://api.saghatelyaninstitute.org//forms/mentorship" method="POST" enctype = "multipart/form-data" target="_self">
+
+	<input type="hidden" name="_next" value="https://www.saghatelyaninstitute.org/congratulations-mentoring-program-applicants/">
+
+    <h3>Personal Data</h3>
+
+	<label for="name">Salutation</label>
+	<input type="text" id="name" name="name" placeholder="Dr.|Mr.|Mrs." required >
+
+	<label for="name">Name</label>
+	<input type="text" id="name" name="name" required>
+
+	<label for="name">Surname</label>
+	<input type="text" id="name" name="name" required>
+
+	<label for="gender" id='gender'>Gender</label>
+	<div class="radio">
+		<label for="female" >Female</label>
+		<input type="radio" id="female" value="female" name="gender" required >
+		<label for="male">Male</label>
+		<input type="radio" id="male" value="male" name="gender"  required>
+		<label for="male">Prefer not to say</label>
+		<input type="radio" id="N/A" value="N/A" name="gender"  required>
+		<label for="male">Other</label>
+		<input type="radio" id="other" value="other" name="gender"  required>
+
+		<input type="text" id="other_text" >
+	</div>
+
+	<label for="birth_date">Date of birth</label>
+	<input type="date" required>
+
+	<label for="nationality">Nationality</label>
+	<input type="text" required>
+
+	<label for="uni">University / Institution</label>
+	<input type="text" id="uni" name="uni" required>
+
+	<label for="school3">Function / Occupation</label>
+	<input type="text" id="function" name="function" required>
+
+    <h3>Contact Information</h3>
+
+	<label for="address">Address</label>
+	<div class="address">
+	  <input type="street" name="street"  placeholder="Street"   required style="grid-area: street;">
+	  <input type="street" name="street2" placeholder="Street 2" style="grid-area: street2;">
+	  <input type="city"   name="city"   placeholder="City"      required style="grid-area: city">
+	  <input type="state"  name="state"  placeholder="State"     required style="grid-area: state;">
+	  <input type="zip"    name="zip"    placeholder="Zip"       required style="grid-area: zip;">
+	  <input type="country" name="country" placeholder="Country" required style="grid-area: country;">
+	</div>
+
+	<label for="email">E-mail Address</label>
+	<input type="email" id="email" name="email" required>
+
+	<label for="phone">Phone Number</label>
+	<input type="tel" id="phone" name="phone" 	placeholder="+374 96666666" pattern="\+[0-9]{1,3} [0-9]{8}" required>
+
+	<label for="saccount">Social Account (optional)</label>
+	<input type="text" id="saccount" name="saccount">
+
+
+  	<h3>Documents</h3>
+
+	<label for="cv">Please upload your CV as PDF*</label>
+	<input type="file" id='cv' name="cv" accept="application/pdf" required>
+
+	<label for="photo">
+		<div> Upload New Photo</div>
+		<div style="font-size: 0.7em;"> Face photo similar to passport or visa photo. </div>
+	</label>
+	<input type="file" id="photo" name="photo" accept="image/png, image/jpeg" required>
+
+	<h3>Additional Information</h3>
+
+	<label for="hear">Where did you first hear about Saghatelyan Institute for Strategic Education?(optional)</label>
+	<input type="text" id="hear" name="hear">
+
+	<label for="share">Would you mind nominating three people you think will be competent enough to become a member of SIS Education by writing their e-mails?(optional)</label>
+	<input type="text" id="share" name="share">
+
+	<label for="additional_info">You may use the space below to provide any additional information you wish to share.</label>
+	<textarea name='additional_info'></textarea>
+
+	<input type="submit" value="Submit">
+</form>
